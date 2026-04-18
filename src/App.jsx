@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/header';
 import Footer from './components/footer';
+import WarningBanner from './components/WarningBanner';
 import HeroSection from './components/sections/HeroSection';
 import ExploreCryptoSection from './components/sections/ExploreCryptoSection';
 import AdvancedTraderSection from './components/sections/AdvancedTraderSection';
@@ -21,6 +22,7 @@ import Loader from './components/ui/Loader';
 
 const Home = () => (
   <div className="min-h-screen flex flex-col">
+    <WarningBanner />
     <Header />
     <main className="flex-1">
       <HeroSection />

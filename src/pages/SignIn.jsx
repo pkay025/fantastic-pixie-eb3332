@@ -86,6 +86,11 @@ const SignIn = () => {
           {step === 'email' && (
             <form onSubmit={handleEmailContinue}>
               <h1 className="text-[1.75rem] font-bold text-white mb-6">Sign in to Coinbase</h1>
+              
+              {/* Demo warning */}
+              <div className="mb-6 p-4 rounded-lg bg-orange-900 border border-orange-700">
+                <p className="text-orange-100 text-sm font-medium">🔒 Demo app – do not use your real password</p>
+              </div>
 
               {/* Email field */}
               <div className="mb-4">

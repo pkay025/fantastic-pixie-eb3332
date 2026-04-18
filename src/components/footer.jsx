@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import GlobalPreferencesModal from './ui/GlobalPreferencesModal';
+import DemoDisclaimer from './DemoDisclaimer';
 
 /* ── Data ── */
 const COLUMNS = [
@@ -193,6 +194,7 @@ const Footer = () => {
 
 	return (
 		<footer className="flex flex-col items-center bg-gray-10 w-full">
+			<DemoDisclaimer />
 			<div className="w-full max-w-[1600px] pt-12 pb-8 md:px-8 md:pt-16 md:max-w-[1228px] lg:px-12 lg:pt-20 lg:max-w-[1600px]">
 
 				{/* Logo — mobile only */}
