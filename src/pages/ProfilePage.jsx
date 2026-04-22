@@ -18,7 +18,7 @@ const Profile = () => {
     // Fetch user profile data
     const fetchProfile = async () => {
       try {
-        const res = await fetch("http://localhost:3000/profile", {
+        const res = await fetch("https://interim-assesment-pkay025-1-1.onrender.com/profile", {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${token}`,

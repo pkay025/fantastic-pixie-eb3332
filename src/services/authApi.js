@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://interim-assesment-pkay025-1-1.onrender.com';
 
 const parseResponseBody = async (res) => {
   const contentType = res.headers.get('content-type') || '';
