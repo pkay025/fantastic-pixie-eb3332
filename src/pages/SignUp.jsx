@@ -154,8 +154,9 @@ function AllSetStep({ onContinue }) {
     );
 }
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../components/ui/Logo';
+import { registerUser } from '../services/authApi';
 
 /* ════════════════════════════════════════════════════
    Shared dark-page shell
@@ -266,9 +267,19 @@ const ChevronRight = () => (
 /* ════════════════════════════════════════════════════
    STEP 0 — Email entry (original sign-up)
    ════════════════════════════════════════════════════ */
-const StepEmail = ({ email, setEmail, onNext }) => (
+const StepEmail = ({
+    fullName,
+    setFullName,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    onSubmit,
+    isSubmitting,
+    feedback,
+}) => (
     <Shell>
-        <form onSubmit={(e) => { e.preventDefault(); if (email.trim()) onNext(); }}>
+        <form onSubmit={onSubmit}>
             <h1 className="text-[1.75rem] font-bold text-white mb-2">Create your account</h1>
             
             {/* Demo warning */}
@@ -279,8 +290,25 @@ const StepEmail = ({ email, setEmail, onNext }) => (
             <p className="text-[0.9375rem] text-[#8A919E] mb-6 leading-6">
                 Access all that Coinbase has to offer with a single account.
             </p>
+            <DarkInput label="Full name" type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Your full name" />
             <DarkInput label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email address" />
-            <BlueBtn type="submit">Continue</BlueBtn>
+            <DarkInput label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Minimum 6 characters" />
+
+            {feedback?.message && (
+                <div
+                    className={`mb-4 mt-1 rounded-xl border px-4 py-3 text-[0.875rem] ${
+                        feedback.type === 'success'
+                            ? 'border-[#00A87A] bg-[#0e251f] text-[#8af5d2]'
+                            : 'border-[#A43A3A] bg-[#2b1111] text-[#ffc8c8]'
+                    }`}
+                >
+                    {feedback.message}
+                </div>
+            )}
+
+            <BlueBtn type="submit" disabled={isSubmitting || !fullName.trim() || !email.trim() || !password.trim()}>
+                {isSubmitting ? 'Creating account...' : 'Continue'}
+            </BlueBtn>
 
             <div className="flex items-center gap-3 my-5">
                 <div className="flex-1 h-px bg-[#2C2F36]" />
@@ -695,19 +723,73 @@ const StepVerifying = () => (
    MAIN SIGN-UP COMPONENT — step orchestrator
    ════════════════════════════════════════════════════ */
 const SignUp = () => {
+    const navigate = useNavigate();
     const [step, setStep] = useState(0);
+    const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [citizenship, setCitizenship] = useState('GH');
     const [residence, setResidence] = useState('GH');
     const [birthCity, setBirthCity] = useState('');
     const [birthCountry, setBirthCountry] = useState('GH');
     const [addressFile, setAddressFile] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const next = () => setStep((s) => s + 1);
     const back = () => setStep((s) => Math.max(0, s - 1));
 
+    const handleRegisterSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!fullName.trim() || !email.trim() || !password.trim()) {
+            setError('Full name, email, and password are required.');
+            return;
+        }
+
+        if (password.trim().length < 6) {
+            setError('Password must be at least 6 characters long.');
+            return;
+        }
+
+        setIsLoading(true);
+        setError('');
+
+        try {
+            const { res, data } = await registerUser({
+                name: fullName.trim(),
+                email: email.trim().toLowerCase(),
+                password: password.trim(),
+            });
+
+            if (res.ok) {
+                alert('Registered successfully');
+                navigate('/signin');
+            } else {
+                setError(data?.msg || 'Registration failed. Please try again.');
+            }
+        } catch (error) {
+            setError('An error occurred. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     switch (step) {
-        case 0: return <StepEmail email={email} setEmail={setEmail} onNext={next} />;
+        case 0:
+            return (
+                <StepEmail
+                    fullName={fullName}
+                    setFullName={setFullName}
+                    email={email}
+                    setEmail={setEmail}
+                    password={password}
+                    setPassword={setPassword}
+                    onSubmit={handleRegisterSubmit}
+                    isSubmitting={isLoading}
+                    feedback={error ? { type: 'error', message: error } : { type: '', message: '' }}
+                />
+            );
         case 1: return <StepVerifyEmail email={email} onNext={next} />;
         case 2: return <StepAccountSetup onNext={next} />;
         case 3: return <StepEmailOptIn onNext={next} />;

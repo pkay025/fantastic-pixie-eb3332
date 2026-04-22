@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../components/ui/Logo';
+import { loginUser } from '../services/authApi';
 
 /* ── Icons ── */
 const PasskeyIcon = () => (
@@ -57,17 +58,58 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleEmailContinue = (e) => {
     e.preventDefault();
-    if (email.trim()) setStep('password');
+    if (!email.trim()) {
+      setError('Email is required.');
+      return;
+    }
+
+    setError('');
+    setStep('password');
   };
 
-  const handlePasswordContinue = (e) => {
+  const handlePasswordContinue = async (e) => {
     e.preventDefault();
-    // No backend — navigate to verify code page
-    navigate('/verify', { state: { email } });
+
+    if (!email.trim() || !password.trim()) {
+      setError('Email and password are required.');
+      return;
+    }
+
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const { res, data } = await loginUser({
+        email: email.trim().toLowerCase(),
+        password,
+      });
+
+      if (res.ok) {
+        // Preferred: backend sets HttpOnly auth cookie via Set-Cookie.
+        // Fallback: keep token for this session only if API returns it in JSON.
+        if (data && typeof data === 'object' && data.token) {
+          sessionStorage.setItem('auth_token', data.token);
+        }
+
+        navigate('/'), alert('Login successful!');
+      } else {
+        const message =
+          (data && typeof data === 'object' && (data.msg || data.message || data.error)) ||
+          'Login failed. Please check your credentials and try again.';
+
+        setError(message);
+      }
+    } catch {
+      setError('An error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -111,6 +153,12 @@ const SignIn = () => {
               >
                 Continue
               </button>
+
+              {error && (
+                <div className="mb-5 rounded-xl border border-[#A43A3A] bg-[#2b1111] px-4 py-3 text-[0.875rem] text-[#ffc8c8]">
+                  {error}
+                </div>
+              )}
 
               {/* Divider */}
               <div className="flex items-center gap-3 mb-5">
@@ -193,11 +241,18 @@ const SignIn = () => {
               </div>
 
               {/* Continue button */}
+              {error && (
+                <div className="mb-4 rounded-xl border border-[#A43A3A] bg-[#2b1111] px-4 py-3 text-[0.875rem] text-[#ffc8c8]">
+                  {error}
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="w-full h-14 rounded-full bg-[#3B4DE0] hover:bg-[#2F3FC0] active:bg-[#2535A0] text-white font-semibold text-[0.9375rem] transition-colors"
+                disabled={isLoading}
+                className="w-full h-14 rounded-full bg-[#3B4DE0] hover:bg-[#2F3FC0] active:bg-[#2535A0] disabled:bg-[#1E2025] disabled:text-[#5B616E] text-white font-semibold text-[0.9375rem] transition-colors"
               >
-                Continue
+                {isLoading ? 'Signing in...' : 'Continue'}
               </button>
             </form>
           )}

@@ -54,11 +54,11 @@ const MENUS = {
 		cols: [
 			[
 				{ icon: <BuySellIcon />,    title: 'Buy and sell',     desc: 'Buy, sell, and use crypto',                     href: '#' },
-				   { icon: <AppIcon />,        title: 'Base App',         desc: 'Post, earn, trade, and chat, all in one place', href: 'https://join.base.app/' },
-				   { icon: <OneIcon />,        title: 'Coinbase One',     desc: 'Get zero trading fees and more',                href: 'https://coinbase.com/one?referrer=logged_out' },
+				   { icon: <AppIcon />,     title: 'Base App',         desc: 'Post, earn, trade, and chat, all in one place', href: 'https://join.base.app/' },
+				   { icon: <OneIcon />,     title: 'Coinbase One',     desc: 'Get zero trading fees and more',                href: 'https://coinbase.com/one?referrer=logged_out' },
 				{ icon: <DiamondIcon />,    title: 'Private Client',   desc: 'For trusts, family offices, UHNWIs',            href: '#' },
 				{ icon: <ChainIcon />,      title: 'Onchain',          desc: 'Dive into the world of onchain apps',           href: '#' },
-				   { icon: <LearnIcon />,      title: 'Learn',            desc: 'Crypto education and resources',                href: 'https://www.coinbase.com/learn' },
+				   { icon: <LearnIcon />,   title: 'Learn',            desc: 'Crypto education and resources',                href: 'https://www.coinbase.com/learn' },
 			],
 			[
 				   { icon: <AdvancedIcon />,   title: 'Advanced',         desc: 'Professional-grade trading tools',              href: 'https://www.coinbase.com/advanced-trade' },
@@ -282,17 +282,32 @@ const Header = () => {
 						<ul className="hidden lg:flex items-center gap-1">
 							{navLinks.map((link) => (
 								<li key={link}>
-									<a
-										href="#"
-										onMouseEnter={() => handleEnter(link)}
-										className={`text-label-1 px-3 py-2 rounded-lg transition-colors whitespace-nowrap ${
-											activeMenu === link
-												? 'text-blue-60 bg-gray-5'
-												: 'text-gray-100 hover:bg-gray-5'
-										}`}
-									>
-										{link}
-									</a>
+									{link === 'Cryptocurrencies' ? (
+										<Link
+											to="/explore"
+											onMouseEnter={() => handleEnter(link)}
+											onClick={() => setActiveMenu(null)}
+											className={`text-label-1 px-3 py-2 rounded-lg transition-colors whitespace-nowrap ${
+												activeMenu === link
+													? 'text-blue-60 bg-gray-5'
+													: 'text-gray-100 hover:bg-gray-5'
+											}`}
+										>
+											{link}
+										</Link>
+									) : (
+										<a
+											href="#"
+											onMouseEnter={() => handleEnter(link)}
+											className={`text-label-1 px-3 py-2 rounded-lg transition-colors whitespace-nowrap ${
+												activeMenu === link
+													? 'text-blue-60 bg-gray-5'
+													: 'text-gray-100 hover:bg-gray-5'
+											}`}
+										>
+											{link}
+										</a>
+									)}
 								</li>
 							))}
 						</ul>
