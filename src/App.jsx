@@ -4,7 +4,6 @@ import Header from './components/header';
 import Footer from './components/footer';
 import WarningBanner from './components/WarningBanner';
 import HeroSection from './components/sections/HeroSection';
-import ExploreCryptoSection from './components/sections/ExploreCryptoSection';
 import AdvancedTraderSection from './components/sections/AdvancedTraderSection';
 import BaseAppSection from './components/sections/BaseAppSection';
 import LearnSection from './components/sections/LearnSection';
@@ -26,7 +25,6 @@ const Home = () => (
     <Header />
     <main className="flex-1">
       <HeroSection />
-      <ExploreCryptoSection />
       <AdvancedTraderSection />
       <BaseAppSection />
       <LearnSection />
