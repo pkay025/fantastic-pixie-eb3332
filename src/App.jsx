@@ -8,16 +8,12 @@ import AdvancedTraderSection from './components/sections/AdvancedTraderSection';
 import BaseAppSection from './components/sections/BaseAppSection';
 import LearnSection from './components/sections/LearnSection';
 import TakeControlSection from './components/sections/TakeControlSection';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
-import AccountTypeSelect from './pages/AccountTypeSelect';
-import ForgotPassword from './pages/ForgotPassword';
-import VerifyCode from './pages/VerifyCode';
 import ExplorePage from './pages/ExplorePage';
 import MarketStatsPage from './pages/MarketStatsPage';
 import LearnPage from './pages/LearnPage';
 import CryptoBasicsPage from './pages/CryptoBasicsPage';
 import Loader from './components/ui/Loader';
+import SafetyNoticePage from './pages/SafetyNoticePage';
 
 const Home = () => (
   <div className="min-h-screen flex flex-col">
@@ -49,11 +45,11 @@ const App = () => {
       <Route path="/" element={<Home />} />
       <Route path="/explore" element={<ExplorePage />} />
       <Route path="/market-stats" element={<MarketStatsPage />} />
-      <Route path="/signin" element={<SignIn />} />
-      <Route path="/account-type" element={<AccountTypeSelect />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/verify" element={<VerifyCode />} />
+      <Route path="/signin" element={<SafetyNoticePage />} />
+      <Route path="/account-type" element={<SafetyNoticePage />} />
+      <Route path="/signup" element={<SafetyNoticePage />} />
+      <Route path="/forgot-password" element={<SafetyNoticePage />} />
+      <Route path="/verify" element={<SafetyNoticePage />} />
       <Route path="/learn" element={<LearnPage />} />
       <Route path="/learn/crypto-basics" element={<CryptoBasicsPage />} />
     </Routes>

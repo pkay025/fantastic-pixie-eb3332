@@ -741,7 +741,7 @@ const ExplorePage = () => {
 															<td className="py-4 px-3 text-body text-gray-900">{fmtCompact(coin.total_volume, currLabel)}</td>
 															<td className="py-4 px-3">
 																<Link
-																	to="/signup"
+																			to="/learn"
 																	className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-blue-600 text-white text-label-1 hover:opacity-90 transition-opacity"
 																>
 																	Trade
@@ -804,7 +804,7 @@ const ExplorePage = () => {
 										<h2 className="text-3xl text-white mb-6 max-w-lg">
 											Create a Coinbase account to trade crypto. It's quick, easy, and secure.
 										</h2>
-										<Link to="/signup">
+											<Link to="/learn">
 											<Button variant="outline" size="lg" className="bg-white text-gray-900 border-white hover:bg-gray-100">
 												Start Trading
 												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
@@ -830,7 +830,7 @@ const ExplorePage = () => {
 								<div className="relative z-10 w-[65%] shrink-0">
 									<h3 className="text-[17px] leading-[24px] font-semibold text-white mb-1">Get started</h3>
 									<p className="text-[15px] leading-[20px] text-white mb-5">Create your account today</p>
-									<Link to="/signup">
+									<Link to="/learn">
 										<button className="bg-white text-black px-4 py-2 rounded-full font-medium text-[15px] transition-opacity hover:opacity-90">
 											Sign up
 										</button>

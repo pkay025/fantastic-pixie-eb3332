@@ -10,11 +10,7 @@ const HeroSection = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		if (email.trim()) {
-			navigate(`/signup?email=${encodeURIComponent(email.trim())}`);
-		} else {
-			navigate('/account-type');
-		}
+		navigate('/learn');
 	};
 
 	return (

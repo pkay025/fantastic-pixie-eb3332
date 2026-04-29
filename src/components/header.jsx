@@ -367,13 +367,13 @@ const Header = () => {
 
 							{/* Sign in — gray pill */}
 							<Link
-								to="/signin"
+								to="/learn"
 								className="hidden sm:flex items-center h-10 px-4 text-[0.875rem] font-semibold text-gray-100 bg-gray-10 hover:bg-gray-15 rounded-full transition-colors whitespace-nowrap"
 							>
 								Sign in
 							</Link>
 							<Link
-															to="/account-type"
+															to="/learn"
 								className="inline-flex items-center justify-center rounded-pill font-semibold transition-all duration-200 bg-blue-60 text-white hover:opacity-90 px-4 py-2 text-label-1 whitespace-nowrap"
 							>
 								Sign up
